@@ -26,13 +26,19 @@ class InsureeMainMenu extends Component {
     if (this.isWorker) {
       const config = { genericVoucherEnabled: this.genericVoucherEnabled };
 
-      entries.push(
-        ...this.props.modulesManager
-          .getContribs(WORKER_MAIN_MENU_CONTRIBUTION_KEY)
-          .filter((c) => !c.filter || c.filter(rights, config)),
-      );
+      const workerContribs = this.props.modulesManager.getContribs(WORKER_MAIN_MENU_CONTRIBUTION_KEY);
+      console.log('Worker contributions found:', workerContribs.length);
+      console.log('Worker contributions:', workerContribs);
+      console.log('User rights:', rights);
+      console.log('Config:', config);
 
-      if (!entries) return null;
+      const filteredContribs = workerContribs.filter((c) => !c.filter || c.filter(rights, config));
+      console.log('Filtered contributions:', filteredContribs.length);
+      console.log('Filtered contributions:', filteredContribs);
+
+      entries.push(...filteredContribs);
+
+      if (!entries.length) return null;
 
       return (
         <MainMenuContribution
@@ -51,7 +57,7 @@ class InsureeMainMenu extends Component {
         icon: <GroupAdd />,
         route: "/" + modulesManager.getRef("insuree.route.family"),
         withDivider: true,
-        id: "insuree.addFamilyOrGroup", 
+        id: "insuree.addFamilyOrGroup",
       });
     }
     if (rights.includes(RIGHT_FAMILY)) {
@@ -59,7 +65,7 @@ class InsureeMainMenu extends Component {
         text: formatMessage(this.props.intl, "insuree", "menu.familiesOrGroups"),
         icon: <People />,
         route: "/" + modulesManager.getRef("insuree.route.families"),
-        id: "insuree.familiesOrGroups", 
+        id: "insuree.familiesOrGroups",
       });
     }
     if (rights.includes(RIGHT_INSUREE)) {
@@ -67,7 +73,7 @@ class InsureeMainMenu extends Component {
         text: formatMessage(this.props.intl, "insuree", "menu.insurees"),
         icon: <Person />,
         route: "/" + modulesManager.getRef("insuree.route.insurees"),
-        id: "insuree.insurees", 
+        id: "insuree.insurees",
       });
     }
     entries.push(
