@@ -91,7 +91,7 @@ const INSUREE_FULL_PROJECTION = (mm) => [
   "healthFacility" + mm.getProjection("location.HealthFacilityPicker.projection"),
 ];
 
-export const INSUREE_PICKER_PROJECTION = ["id", "uuid", "chfId", "lastName", "otherNames", "dob"];
+export const INSUREE_PICKER_PROJECTION = ["id", "uuid", "chfId", "lastName", "otherNames", "dob", "regularId"];
 
 export function fetchInsureeGenders() {
   const payload = formatQuery("insureeGenders", null, ["code"]);
@@ -323,10 +323,9 @@ export function formatInsureeGQL(mm, insuree) {
     ${!!insuree.phone ? `phone: "${formatGQLString(insuree.phone)}"` : ""}
     ${!!insuree.email ? `email: "${formatGQLString(insuree.email)}"` : ""}
     ${!!insuree.currentAddress ? `currentAddress: "${formatGQLString(insuree.currentAddress)}"` : ""}
-    ${
-      !!insuree.currentVillage && !!insuree.currentVillage.id
-        ? `currentVillageId: ${decodeId(insuree.currentVillage.id)}`
-        : ""
+    ${!!insuree.currentVillage && !!insuree.currentVillage.id
+      ? `currentVillageId: ${decodeId(insuree.currentVillage.id)}`
+      : ""
     }
     ${!!insuree.photo ? `photo:${formatInsureePhoto(insuree.photo)}` : ""}
     cardIssued:${!!insuree.cardIssued}
@@ -337,15 +336,13 @@ export function formatInsureeGQL(mm, insuree) {
     ${!!insuree.relationship && !!insuree.relationship.id ? `relationshipId: ${insuree.relationship.id}` : ""}
     ${!!insuree.status ? `status: "${insuree.status}"` : ""}
     ${!!insuree.statusDate && !!insuree.status != INSUREE_ACTIVE_STRING ? `statusDate: "${insuree.statusDate}"` : ""}
-    ${
-      !!insuree.statusReason && !!insuree.status != INSUREE_ACTIVE_STRING
-        ? `statusReason: "${insuree.statusReason.code}"`
-        : ""
+    ${!!insuree.statusReason && !!insuree.status != INSUREE_ACTIVE_STRING
+      ? `statusReason: "${insuree.statusReason.code}"`
+      : ""
     }
-    ${
-      !!insuree.healthFacility && !!insuree.healthFacility.id
-        ? `healthFacilityId: ${decodeId(insuree.healthFacility.id)}`
-        : ""
+    ${!!insuree.healthFacility && !!insuree.healthFacility.id
+      ? `healthFacilityId: ${decodeId(insuree.healthFacility.id)}`
+      : ""
     }
     ${!!insuree.jsonExt ? `jsonExt: ${formatJsonField(insuree.jsonExt)}` : ""}
   `;
@@ -361,10 +358,9 @@ export function formatFamilyGQL(mm, family) {
     poverty: ${!!family.poverty}
     ${!!family.familyType && !!family.familyType.code ? `familyTypeId: "${family.familyType.code}"` : ""}
     ${!!family.address ? `address: "${formatGQLString(family.address)}"` : ""}
-    ${
-      !!family.confirmationType && !!family.confirmationType.code
-        ? `confirmationTypeId: "${family.confirmationType.code}"`
-        : ""
+    ${!!family.confirmationType && !!family.confirmationType.code
+      ? `confirmationTypeId: "${family.confirmationType.code}"`
+      : ""
     }
     ${!!family.confirmationNo ? `confirmationNo: "${formatGQLString(family.confirmationNo)}"` : ""}
     ${!!family.jsonExt ? `jsonExt: ${formatJsonField(family.jsonExt)}` : ""}
